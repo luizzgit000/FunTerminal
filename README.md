@@ -1,3 +1,5 @@
+abra "código bat.txt" funterminal.bat esta desatualizado⚠️
+---
 
 🚀 FunTerminal — Seu Terminal Divertido para a Escola!
 
@@ -118,7 +120,7 @@ As senhas Wi-Fi exibidas são apenas das redes que o PC já salvou (não hackeia
 
 ---
 
-👾 Feito por [luizxr]
+👾 Feito por luizxr
 
 
 
