@@ -1,7 +1,7 @@
-
 @echo off
 color 0A
 title Fun Terminal - By luizxr
+mode 100,30
 
 :menu
 cls
@@ -15,31 +15,117 @@ echo [2] Abrir Scratch
 echo [3] Abrir Doodle Champions Island (Google Game)
 echo [4] Ver conexoes com netstat
 echo [5] Listar todos os arquivos (dir /s)
-echo [6] Ver redes Wi-Fi salvas
-echo [7] Descobrir senha de uma rede Wi-Fi
-echo [8] Sair
+echo [6] Pingar google.com
+echo [7] Ver IP local
+echo [8] Ver IP externo
+echo [9] Ver portas abertas
+echo [10] Ver rotas de rede
+echo [11] Testar velocidade ping
+echo [12] Ver ARP table
+echo [13] Ver processos ativos
+echo [14] Ver usuarios do PC
+echo [15] Informacoes do sistema
+echo [16] Informacoes da BIOS
+echo [17] Historico de DNS
+echo [18] Ver drivers instalados
+echo [19] Ver programas instalados
+echo [20] Listar compartilhamentos
+echo [21] Listar sessões remotas
+echo [22] Listar adaptadores de rede
+echo [23] Listar discos e partições
+echo [24] Listar tarefas agendadas
+echo [25] Listar firewall rules
+echo [26] Ver conexoes Wi-Fi ativas
+echo [27] Ver IP de maquinas conectadas na rede
+echo [28] Duvida sobre comando
+echo [0] Sair
 echo.
 set /p op="Escolha uma opcao: "
 
-if "%op%"=="1" start https://www.youtube.com && goto menu
-if "%op%"=="2" start https://scratch.mit.edu && goto menu
-if "%op%"=="3" start https://www.google.com/doodles/doodle-champion-island-games-august-31 && goto menu
-if "%op%"=="4" netstat && pause && goto menu
-if "%op%"=="5" dir /s && pause && goto menu
-if "%op%"=="6" netsh wlan show profiles && pause && goto menu
-if "%op%"=="7" goto wifi
-if "%op%"=="8" exit
+if "%op%"=="1" start https://www.youtube.com && goto pausa
+if "%op%"=="2" start https://scratch.mit.edu && goto pausa
+if "%op%"=="3" start https://www.google.com/doodles/doodle-champion-island-games-august-31 && goto pausa
+if "%op%"=="4" netstat -ano && goto pausa
+if "%op%"=="5" dir /s && goto pausa
+if "%op%"=="6" ping google.com && goto pausa
+if "%op%"=="7" ipconfig && goto pausa
+if "%op%"=="8" nslookup myip.opendns.com. resolver1.opendns.com && goto pausa
+if "%op%"=="9" netstat -an | find "LISTEN" && goto pausa
+if "%op%"=="10" route print && goto pausa
+if "%op%"=="11" ping -n 20 google.com && goto pausa
+if "%op%"=="12" arp -a && goto pausa
+if "%op%"=="13" tasklist && goto pausa
+if "%op%"=="14" net user && goto pausa
+if "%op%"=="15" systeminfo && goto pausa
+if "%op%"=="16" wmic bios get serialnumber, version && goto pausa
+if "%op%"=="17" ipconfig /displaydns && goto pausa
+if "%op%"=="18" driverquery && goto pausa
+if "%op%"=="19" wmic product get name,version && goto pausa
+if "%op%"=="20" net share && goto pausa
+if "%op%"=="21" net session && goto pausa
+if "%op%"=="22" wmic nic get name,macaddress && goto pausa
+if "%op%"=="23" wmic logicaldisk get name,description && goto pausa
+if "%op%"=="24" schtasks && goto pausa
+if "%op%"=="25" netsh advfirewall firewall show rule name=all && goto pausa
+if "%op%"=="26" netsh wlan show interfaces && goto pausa
+if "%op%"=="27" arp -a && goto pausa
+if "%op%"=="28" goto duvida
+if "%op%"=="0" exit
 goto menu
 
-:wifi
-cls
-echo =========================================
-echo   DESCOBRIR SENHA DA REDE WI-FI SALVA
-echo =========================================
+:pausa
 echo.
-set /p wifiname="Qual rede wifi deseja descobrir a senha? Digite o nome exato: "
-echo.
-netsh wlan show profile name="%wifiname%" key=clear | findstr Key
-echo.
-pause
+echo Aperte ESPAÇO para continuar...
+pause >nul
+call :matrix
 goto menu
+
+:matrix
+cls
+color 0A
+for /L %%i in (1,1,30) do (
+    setlocal enabledelayedexpansion
+    set "line="
+    for /L %%j in (1,1,50) do (
+        set /A "rand=!random! %% 2"
+        set "line=!line!!rand!"
+    )
+    echo !line!
+    endlocal
+    ping -n 1 localhost >nul
+)
+exit /b
+
+:duvida
+cls
+set /p duv="Qual comando voce tem duvida? (Digite o numero): "
+echo.
+if "%duv%"=="1" echo Abre o site do YouTube.
+if "%duv%"=="2" echo Abre o site do Scratch para programar jogos.
+if "%duv%"=="3" echo Abre o jogo Doodle Champions Island no Google.
+if "%duv%"=="4" echo Mostra todas as conexoes de rede ativas no PC.
+if "%duv%"=="5" echo Lista todos os arquivos e pastas no disco.
+if "%duv%"=="6" echo Testa conexao com google.com usando ping.
+if "%duv%"=="7" echo Mostra o IP local da sua rede.
+if "%duv%"=="8" echo Mostra seu IP externo usando DNS lookup.
+if "%duv%"=="9" echo Mostra as portas abertas que estao escutando.
+if "%duv%"=="10" echo Exibe a tabela de rotas da rede.
+if "%duv%"=="11" echo Testa a velocidade de ping por 20 pacotes.
+if "%duv%"=="12" echo Mostra dispositivos conectados via ARP.
+if "%duv%"=="13" echo Lista todos os processos ativos do Windows.
+if "%duv%"=="14" echo Mostra usuarios cadastrados no PC.
+if "%duv%"=="15" echo Mostra informacoes completas do sistema.
+if "%duv%"=="16" echo Mostra versao e serial da BIOS.
+if "%duv%"=="17" echo Mostra o historico de DNS resolvido.
+if "%duv%"=="18" echo Lista todos os drivers instalados.
+if "%duv%"=="19" echo Mostra programas e suas versoes instalados.
+if "%duv%"=="20" echo Lista pastas que estao compartilhadas.
+if "%duv%"=="21" echo Mostra sessoes remotas ativas.
+if "%duv%"=="22" echo Lista adaptadores de rede e MAC address.
+if "%duv%"=="23" echo Mostra discos e particoes do sistema.
+if "%duv%"=="24" echo Lista todas as tarefas agendadas.
+if "%duv%"=="25" echo Mostra todas as regras do firewall.
+if "%duv%"=="26" echo Mostra detalhes da conexao Wi-Fi ativa.
+if "%duv%"=="27" echo Mostra IPs e MACs de maquinas conectadas na rede.
+echo.
+goto pausa
