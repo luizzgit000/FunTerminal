@@ -1,0 +1,134 @@
+@echo off
+color 0a
+title CyberSec - by luizxr
+
+:menu
+cls
+echo ================================================
+echo            CyberSec - by luizxr
+echo ================================================
+echo.
+
+:: Opcoes de abrir sites/jogos
+echo [01] Abrir Scratch
+echo [02] Abrir Sala do Futuro
+echo [03] Abrir Doodle Champions Island
+echo [04] Abrir YouTube
+echo.
+
+:: Comandos hacking SEM admin
+echo [05] ipconfig
+echo [06] ipconfig /all
+echo [07] ping 8.8.8.8
+echo [08] tracert google.com
+echo [09] netstat
+echo [10] netstat -ano
+echo [11] arp -a
+echo [12] route print
+echo [13] nbtstat -n
+echo [14] systeminfo
+echo [15] hostname
+echo [16] whoami
+echo [17] tasklist
+echo [18] tasklist /v
+echo [19] wmic os get caption
+echo [20] wmic cpu get name
+echo [21] ipconfig /displaydns
+echo [22] nslookup google.com
+echo [23] Mostrar Dispositivos Conectados ao Wi-Fi
+echo [24] Mostrar Nomes dos Dispositivos na Rede
+echo [25] Duvida sobre Comandos
+echo [26] Sair
+echo.
+
+set /p opt=Digite o número do comando: 
+
+:: Função de pause
+set "pausecmd=echo. & echo Pressione Enter para voltar... & pause >nul"
+
+:: Sites/jogos
+if "%opt%"=="1" start https://scratch.mit.edu & %pausecmd% & goto menu
+if "%opt%"=="2" start https://salaeducacaofuturo.com.br & %pausecmd% & goto menu
+if "%opt%"=="3" start https://www.google.com/doodles/doodle-champions-island-games-begin & %pausecmd% & goto menu
+if "%opt%"=="4" start https://www.youtube.com & %pausecmd% & goto menu
+
+:: Comandos hacking SEM admin
+if "%opt%"=="5" ipconfig & %pausecmd% & goto menu
+if "%opt%"=="6" ipconfig /all & %pausecmd% & goto menu
+if "%opt%"=="7" ping 8.8.8.8 & %pausecmd% & goto menu
+if "%opt%"=="8" tracert google.com & %pausecmd% & goto menu
+if "%opt%"=="9" netstat & %pausecmd% & goto menu
+if "%opt%"=="10" netstat -ano & %pausecmd% & goto menu
+if "%opt%"=="11" arp -a & %pausecmd% & goto menu
+if "%opt%"=="12" route print & %pausecmd% & goto menu
+if "%opt%"=="13" nbtstat -n & %pausecmd% & goto menu
+if "%opt%"=="14" systeminfo & %pausecmd% & goto menu
+if "%opt%"=="15" hostname & %pausecmd% & goto menu
+if "%opt%"=="16" whoami & %pausecmd% & goto menu
+if "%opt%"=="17" tasklist & %pausecmd% & goto menu
+if "%opt%"=="18" tasklist /v & %pausecmd% & goto menu
+if "%opt%"=="19" wmic os get caption & %pausecmd% & goto menu
+if "%opt%"=="20" wmic cpu get name & %pausecmd% & goto menu
+if "%opt%"=="21" ipconfig /displaydns & %pausecmd% & goto menu
+if "%opt%"=="22" nslookup google.com & %pausecmd% & goto menu
+
+:: Mostrar dispositivos conectados (sem admin)
+if "%opt%"=="23" (
+    echo Dispositivos conectados na sua rede Wi-Fi:
+    netsh wlan show interfaces
+    for /f "tokens=1,2 delims=:" %%a in ('arp -a') do echo %%a : %%b
+    %pausecmd%
+    goto menu
+)
+
+:: Mostrar hostnames dos dispositivos conectados (sem admin)
+if "%opt%"=="24" (
+    echo Dispositivos visiveis na rede (com hostname):
+    echo.
+    for /f "tokens=1" %%a in ('arp -a ^| findstr "dynamic"') do (
+        for /f "delims=" %%b in ('ping -a -n 1 %%a ^| findstr "["') do echo %%b
+    )
+    %pausecmd%
+    goto menu
+)
+
+:: Comando 25 - Dúvida sobre comando
+if "%opt%"=="25" (
+    set /p cmdnum=Qual comando você tem duvida? Digite o numero: 
+    call :explicacao %cmdnum%
+    %pausecmd%
+    goto menu
+)
+
+:: Sair
+if "%opt%"=="26" exit
+
+:: Se nenhum comando for encontrado
+echo.
+echo Comando não existe! Tente novamente.
+%pausecmd%
+goto menu
+
+:: Explicações dos comandos
+:explicacao
+if "%1"=="5" echo ipconfig mostra seu IP e conexao atual.
+if "%1"=="6" echo ipconfig /all mostra informacoes completas da rede.
+if "%1"=="7" echo ping 8.8.8.8 testa conexao com servidor do Google.
+if "%1"=="8" echo tracert mostra o caminho ate um site.
+if "%1"=="9" echo netstat lista conexoes de rede ativas.
+if "%1"=="10" echo netstat -ano mostra conexoes com PID dos processos.
+if "%1"=="11" echo arp -a mostra dispositivos conectados na rede.
+if "%1"=="12" echo route print mostra rotas da rede.
+if "%1"=="13" echo nbtstat -n mostra nomes NetBIOS locais.
+if "%1"=="14" echo systeminfo mostra info completa do seu PC.
+if "%1"=="15" echo hostname mostra o nome do seu computador.
+if "%1"=="16" echo whoami mostra o usuario logado.
+if "%1"=="17" echo tasklist lista os programas em execucao.
+if "%1"=="18" echo tasklist /v mostra programas com mais detalhes.
+if "%1"=="19" echo wmic os get caption mostra a versao do Windows.
+if "%1"=="20" echo wmic cpu get name mostra o modelo do seu processador.
+if "%1"=="21" echo ipconfig /displaydns mostra sites visitados recentemente.
+if "%1"=="22" echo nslookup consulta servidor DNS de um site.
+if "%1"=="23" echo Mostra IPs e MACs conectados na rede Wi-Fi.
+if "%1"=="24" echo Tenta mostrar o nome (hostname) dos dispositivos na rede.
+goto :eof
